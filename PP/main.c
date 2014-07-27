@@ -30,6 +30,10 @@ bool isCorrectPhone(char*);
 void createFile();
 void saveFile();
 
+void inputName(char*);
+void inputPhone(char*);
+void inputHome(char*);
+
 Address* create(char*, char*, char*);
 
 List* list = NULL;
@@ -53,7 +57,15 @@ void createFile() {
         char phone[100];
         char home[100];
         
-        fscanf(fp, "%d\t%s\t%s\t%s\n", &id, name, phone, home);
+        fscanf(fp, "%d", &id);
+        fscanf(fp, "\t");
+        fscanf(fp, "%s", name);
+        fscanf(fp, "\t");
+        fscanf(fp, "%s", phone);
+        fscanf(fp, "\t");
+        //fscanf(fp, "%s", home);
+        fgets(home, sizeof(home), fp);
+        fscanf(fp, "\n");
         Address* value = create(name, phone, home);
         value->id = id;
         insert(&list, value);
@@ -90,6 +102,7 @@ void mainScene() {
     
     char letter = '0';
     scanf("%c", &letter);
+    getchar();
     
     if(letter == '1') {
         scene = &browseScene;
@@ -121,17 +134,14 @@ void addScene() {
     char home[100];
     
     do {
-        printf("이름을 입력해주세요 : ");
-        scanf("%s", name);
+        inputName(name);
     } while (!isCorrectName(name));
     
     do {
-        printf("전화번호를 입력해주세요 : ");
-        scanf("%s", phone);
+        inputPhone(phone);
     } while(!isCorrectPhone(phone));
     
-    printf("주소를 입력해주세요 : ");
-    scanf("%s", home);
+    inputHome(home);
     
     insert(&list, create(name, phone, home));
     backToMainScene();
@@ -149,16 +159,13 @@ void findScene() {
     char param[100];
     
     if(letter == '1') { // 이름
-        printf("이름을 입력해주세요 : ");
-        scanf("%s", param);
+        inputName(param);
         find(&findByName, list, param);
     } else if(letter == '2') { // 전화번호
-        printf("전화번호를 입력해주세요 : ");
-        scanf("%s", param);
+        inputPhone(param);
         find(&findByPhone, list, param);
     } else if(letter == '3') { // 주소
-        printf("주소를 입력해주세요 : ");
-        scanf("%s", param);
+        inputHome(param);
         find(&findByHome, list, param);
     }
 }
@@ -177,16 +184,13 @@ void removeScene() {
     List* items = NULL;
     
     if(letter == '1') {
-        printf("이름을 입력해주세요 : ");
-        scanf("%s", param);
+        inputName(param);
         items = findByName(list, param);
     } else if(letter == '2') {
-        printf("전화번호를 입력해주세요 : ");
-        scanf("%s", param);
+        inputPhone(param);
         items = findByPhone(list, param);
     } else if(letter == '3') {
-        printf("주소를 입력해주세요 : ");
-        scanf("%s", param);
+        inputHome(param);
         items = findByHome(list, param);
     }
     
@@ -217,11 +221,20 @@ void removeScene() {
                     }
                     if(prevNode == NULL) {
                         list->head = temp->next;
+                        printf("작업이 마무리되었습니다.\n");
+                        backToMainScene();
+                        return;
                     } else {
                         if(temp->next != NULL) {
                             prevNode->next = temp->next;
+                            printf("작업이 마무리되었습니다.\n");
+                            backToMainScene();
+                            return;
                         } else {
                             prevNode->next = NULL;
+                            printf("작업이 마무리되었습니다.\n");
+                            backToMainScene();
+                            return;
                         }
                     }
                 }
@@ -251,16 +264,13 @@ void amendScene() {
     List* items = NULL;
     
     if(letter == '1') {
-        printf("이름을 입력해주세요 : ");
-        scanf("%s", param);
+        inputName(param);
         items = findByName(list, param);
     } else if(letter == '2') {
-        printf("전화번호를 입력해주세요 : ");
-        scanf("%s", param);
+        inputPhone(param);
         items = findByPhone(list, param);
     } else if(letter == '3') {
-        printf("주소를 입력해주세요 : ");
-        scanf("%s", param);
+        inputHome(param);
         items = findByHome(list, param);
     }
     
@@ -333,12 +343,12 @@ void amendScene() {
 void backToMainScene() {
     printf("엔터를 입력하시면 처음 화면으로 돌아갑니다.\n");
     getchar();
-    getchar();
+    fflush(stdin);
     scene = &mainScene;
 }
 
 bool isCorrectName(char* name) {
-    int length = strlen(name);
+    int length = (int)strlen(name);
     int i=0;
     bool check = true;
     
@@ -352,7 +362,7 @@ bool isCorrectName(char* name) {
 }
 
 bool isCorrectPhone(char* phone) {
-    int length = strlen(phone);
+    int length = (int)strlen(phone);
     int i=0;
     
     if(length != 13) { // 길이제한 어긋남
@@ -370,7 +380,24 @@ bool isCorrectPhone(char* phone) {
     return true;
 }
 
+void inputName(char* str) {
+    printf("이름을 입력해주세요 : ");
+    scanf("%99s", str);
+    getchar();
+}
 
+void inputPhone(char* str) {
+    printf("전화번호를 입력해주세요 : ");
+    scanf("%99s", str);
+    getchar();
+}
+
+void inputHome(char* str) {
+    printf("주소를 입력해주세요 : ");
+    scanf("%99[^\n]s", str);
+    //scanf("%99s", str);
+    getchar();
+}
 
 
 

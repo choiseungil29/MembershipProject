@@ -59,7 +59,6 @@ void search(List *list) {
 		Address* value = temp->value;
         printf("count : %d\n", count+1);
         printf("%d\t%s\t%s\t%s\n", value->id, value->name, value->phone, value->home);
-        printf("\n");
         temp = temp->next;
         count++;
 	}
