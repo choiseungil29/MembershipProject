@@ -36,6 +36,7 @@ void insert(List **list, Address *address) {
 	if((*list)->head == NULL) {
         node->value->id = 10000;
 		(*list)->head = node;
+        (*list)->head->next = NULL;
 		(*list)->length = 1;
 	} else {
 		temp = (*list)->head;
@@ -46,7 +47,7 @@ void insert(List **list, Address *address) {
 		temp->next = node;
         temp->next->next = NULL;
 		(*list)->length++;
-        printf("length : %d\n", (*list)->length);
+        //printf("length : %d\n", (*list)->length);
 	}
 }
 
@@ -135,6 +136,5 @@ void find(List*(*param)(List *, char *), List *list, char *value) {
         backToMainScene();
     }
 }
-
 
 

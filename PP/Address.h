@@ -26,6 +26,8 @@ typedef struct list {
 	struct node *head;
 } List;
 
+typedef enum {false, true} bool;
+
 List* createList();
 void insert(List**, Address *);
 void search(List*);

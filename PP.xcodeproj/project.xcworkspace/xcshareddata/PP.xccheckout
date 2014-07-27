@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>54BA9455-0EC3-4F99-807E-54E4C7BB6B74</string>
+	<key>IDESourceControlProjectName</key>
+	<string>PP</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>912A2A42-ED07-4EC3-9434-8C057C2D7BC4</key>
+		<string>https://github.com/choiseungil29/MembershipProject.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>PP.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>912A2A42-ED07-4EC3-9434-8C057C2D7BC4</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/choiseungil29/MembershipProject.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>912A2A42-ED07-4EC3-9434-8C057C2D7BC4</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>912A2A42-ED07-4EC3-9434-8C057C2D7BC4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MembershipProject</string>
+		</dict>
+	</array>
+</dict>
+</plist>

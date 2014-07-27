@@ -24,16 +24,51 @@ void testCase();
 
 void backToMainScene();
 
+bool isCorrectName(char*);
+bool isCorrectPhone(char*);
+
+void createFile();
+void saveFile();
+
 Address* create(char*, char*, char*);
 
 List* list = NULL;
 
 int main() {
     list = createList();
-    
+    createFile();
 	loop();
     
 	return 0;
+}
+
+void createFile() {
+    FILE* fp = fopen("data.txt", "r");
+    if(fp == false) {
+        return;
+    }
+    while(feof(fp) == 0) {
+        int id = 0;
+        char name[100];
+        char phone[100];
+        char home[100];
+        
+        fscanf(fp, "%d\t%s\t%s\t%s\n", &id, name, phone, home);
+        Address* value = create(name, phone, home);
+        value->id = id;
+        insert(&list, value);
+    } // 최초 초기화 문제 해결해야함.
+}
+
+void saveFile() {
+    FILE* fp = fopen("data.txt", "w");
+    Node* temp = list->head;
+    while(temp != NULL) {
+        Address* value = temp->value;
+        fprintf(fp, "%d\t%s\t%s\t%s\n", value->id, value->name, value->phone, value->home);
+        temp = temp->next;
+    }
+    fclose(fp);
 }
 
 void loop() {
@@ -50,6 +85,8 @@ void mainScene() {
     printf("3. 회원 검색하기.\n");
     printf("4. 회원 삭제하기.\n");
     printf("5. 회원 수정하기.\n");
+    printf("6. 저장하고 종료.\n");
+    printf("7. 저장안하고 종료.\n");
     
     char letter = '0';
     scanf("%c", &letter);
@@ -64,6 +101,11 @@ void mainScene() {
         scene = &removeScene;
     } else if(letter == '5') {
         scene = &amendScene;
+    } else if(letter == '6') {
+        saveFile();
+        exit(0);
+    } else if(letter == '7') {
+        exit(0);
     }
     
 }
@@ -78,11 +120,15 @@ void addScene() {
     char phone[100];
     char home[100];
     
-    printf("이름을 입력해주세요 : ");
-    scanf("%s", name);
+    do {
+        printf("이름을 입력해주세요 : ");
+        scanf("%s", name);
+    } while (!isCorrectName(name));
     
-    printf("전화번호를 입력해주세요 : ");
-    scanf("%s", phone);
+    do {
+        printf("전화번호를 입력해주세요 : ");
+        scanf("%s", phone);
+    } while(!isCorrectPhone(phone));
     
     printf("주소를 입력해주세요 : ");
     scanf("%s", home);
@@ -250,10 +296,17 @@ void amendScene() {
                     if(result == '1') {
                         printf("새로운 이름을 입력해주세요.\n");
                         scanf("%s", newParam);
-                        //strcpy(targetNode->value->name, newParam);
+                        if(!isCorrectName(newParam)) {
+                            printf("잘못된 입력입니다. 한글만 입력해주세요.\n");
+                            continue;
+                        }
                         strcpy(value->name, newParam);
                     } else if(result == '2') {
                         printf("새로운 전화번호를 입력해주세요.\n");
+                        if(!isCorrectPhone(newParam)) {
+                            printf("잘못된 입력입니다. xxx-xxxx-xxxx의 포맷으로 입력해주세요.\n");
+                            continue;
+                        }
                         scanf("%s", newParam);
                         strcpy(value->name, newParam);
                     } else if(result == '3') {
@@ -261,6 +314,7 @@ void amendScene() {
                         scanf("%s", newParam);
                         strcpy(value->name, newParam);
                     } else {
+                        printf("잘못된 입력입니다. 1~3 중 선택해주세요.\n");
                         continue;
                     }
                 }
@@ -277,11 +331,48 @@ void amendScene() {
 }
 
 void backToMainScene() {
-    printf("아무 키나 입력하시면 처음 화면으로 돌아갑니다.\n");
+    printf("엔터를 입력하시면 처음 화면으로 돌아갑니다.\n");
     getchar();
     getchar();
     scene = &mainScene;
 }
+
+bool isCorrectName(char* name) {
+    int length = strlen(name);
+    int i=0;
+    bool check = true;
+    
+    for(i=0; i<length; i++) {
+        if((name[i] & 0x80) != 0x80) {
+            check = false;
+        }
+    }
+    
+    return check;
+}
+
+bool isCorrectPhone(char* phone) {
+    int length = strlen(phone);
+    int i=0;
+    
+    if(length != 13) { // 길이제한 어긋남
+        return false;
+    }
+    
+    for(i=0; i<length; i++) {
+        if(!(phone[i] >= '0' && phone[i] <= '9')) {
+            if(!((i == 3 || i == 8) && (phone[i] == '-'))) {
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
+
+
+
+
 
 
 
